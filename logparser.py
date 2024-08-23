@@ -31,6 +31,7 @@ re_total = (
 regex = re.compile(re_total)
 
 
+
 def parse(p_file: Path) -> list[list[str]]:
     assert p_file.exists()
     results = []
@@ -44,8 +45,10 @@ def parse(p_file: Path) -> list[list[str]]:
     return results
 
 
-def write_to_csv(p_out: Path, logs: list[str],
-                 header: Optional[list[str]] = None) -> None:
+def write_to_csv(
+    p_out: Path, logs: list[str], header: Optional[list[str]] = None
+) -> None:
+    print(header)
     with open(p_out, "w") as fd:
         writer = csv.writer(fd)
         if header:
@@ -64,24 +67,37 @@ def main(p_in: Path, p_out: Path, out_format: str, **export_kargs) -> None:
 
     match out_format:
         case "json":
-            write_to_json(p_out, logs, export_kargs)
+            write_to_json(p_out, logs, **export_kargs)
         case "csv":
-            write_to_csv(p_out, logs, export_kargs)
+            write_to_csv(p_out, logs, **export_kargs)
         case _:
-            raise NotImplementedError(f'file format {out_format}')
-
+            raise NotImplementedError(f"file format {out_format}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog="Logparser",
-        description="Transforms unstructured log-files into structured ones."
+        description=(
+            "Transforms unstructured log-files into structured ones."
+            "Extracts regex groups from raw log-files."
+        ),
     )
     parser.add_argument("p_in", metavar="src", type=Path, help="Source log file.")
-    parser.add_argument("-o", "--out", metavar="dest", type=Path, help="", default=None)
-    parser.add_argument("--header", nargs='+', default=[], metavar="h", help="List of CSV header names.")
+    parser.add_argument(
+        "-o",
+        "--out",
+        metavar="dest",
+        type=Path,
+        default=None,
+        help="Destination log file.",
+    )
+    parser.add_argument(
+        "--header", nargs="+", default=[], metavar="h", help="List of CSV header names."
+    )
+    parser.add_argument("-r", "--regex", default=None, type=str, description="regex")
 
     args = parser.parse_args()
+    print(args)
     out_format = "csv"
 
     # parse p_in
@@ -93,25 +109,14 @@ if __name__ == "__main__":
         print(f"src: '{p_in}' is not a file.")
         sys.exit(1)
 
+    # parse p_out
     p_out = args.out
     if p_out is None:
         p_out = p_in.parent / (p_in.name + ".csv")
-    # parse p_out
     if p_out.is_dir():
         print(f'Output desitionation "{p_out}" is a directory, expected file.')
         sys.exit(1)
     if p_out.is_file() and p_out.exists():
-        print(f'Output file {p_out} already exists!')
-        sys.exit(1)
+        print(f"Warning: Output file {p_out} already exists!")
 
-    main(p_in, p_out, out_format="csv", export_kargs={'header': args.header})
-
-    
-    #p_in = Path(args.p_in)
-
-
-    # p_out = Path("logs.json")
-    # header = ["time", "level", "msg", "file", "func", "kind"]
-    # main(p_logs, p_out, out_format, attributes=header)
-
-
+    main(p_in, p_out, out_format="csv", header=args.header)
