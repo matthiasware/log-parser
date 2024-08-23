@@ -1,3 +1,10 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "logparser"
+version = "0.0.1"
+description = "A parser to transform unstructured logfiles into structured ones."
+readme = "README.md"
+requires-python = ">=3.11"
