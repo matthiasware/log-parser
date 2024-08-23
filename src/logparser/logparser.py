@@ -77,7 +77,7 @@ def val_parse_arg_regex(regex: str) -> Pattern:
     return regex
 
 
-def main(args):
+def _main(args):
 
     regex = val_parse_arg_regex(args.regex)
     p_srcs = val_parse_arg_srcs(args.src)
@@ -95,7 +95,7 @@ def main(args):
         write_to_csv(p_dests[0], logs, group_names)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         prog="Logparser",
         description="Transforms unstructured log-files into structured ones.",
@@ -124,6 +124,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     try:
-        main(args)
+        _main(args)
     except Exception as e:
         print("{} - {}".format(e.__class__.__name__, e))

@@ -8,3 +8,7 @@ version = "0.0.1"
 description = "A parser to transform unstructured logfiles into structured ones."
 readme = "README.md"
 requires-python = ">=3.11"
+
+[project.scripts]
+thezen = "logparser.thezen:main"
+logparse = "logparser.logparser:main"
