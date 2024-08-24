@@ -30,4 +30,19 @@ python -m build && python -m pip install -e .
 ```
 
 #### Example
-...
+
+Parses logfile data/log1.txt with the regex specified in data/log.regex and writes results to logs.csv
+```
+logparser data/log.regex data/log1.txt -d logs.csv
+```
+
+Parses all logfiles in data and merges the results in logs.csv:
+```
+logparser data/log.regex data/*.txt -d logs.csv
+```
+
+Grouop names can be specified that will then be used as header in the csv result file:
+````
+logparser data/log.regex data/*.txt -d logs.csv -n timestamp level msg file func kind
+```
+

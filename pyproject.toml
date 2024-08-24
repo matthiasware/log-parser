@@ -10,7 +10,4 @@ readme = "README.md"
 requires-python = ">=3.11"
 
 [project.scripts]
-logparse = "logparser.logparser:main"
-
-[tool.setuptools]
-packages = ["logparser"]
+logparser = "clparser:main"
