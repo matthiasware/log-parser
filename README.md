@@ -4,24 +4,29 @@ A small CLI tool to regex parse and transform unstructured logfiles.
 
 #### Usage
 ```
-usage: logparser [-h] [-d <dest>] [-n <name> [<name> ...]] <regex> <src> [<src> ...]
+usage: clparser [-h] [-d <dest>] [-s {match,full,search}] [-l] [-n <name> [<name> ...]] [-v]
+                <regex> <src> [<src> ...]
 
-Transforms unstructured log-files into structured ones.
+Parses unstructured log-filesand transforms them into structured ones.
 
 positional arguments:
-  <regex>               Regex to match lines in log file(s). Can be either a filepath or cli
-                        argumet. Regex must match the whole line. The specified groups are
-                        extraced.
-  <src>                 One or multiple source log file(s).
+  <regex>               Regex to match lines in log file(s).Can be either a filepath or cli
+                        argumet.The specified groups are extraced.
+  <src>                 One or many source file(s).
 
 options:
-  -h                    Show this help message and exits.
-  -d <dest>             Destination for parsed logs.Default creates a <src>.csv output for each
-                        <src> file.If <dest> is a directory, saves all outputs as
-                        dest/{src}.csv.The directory must exist.If <dest> is a file, all outputs
-                        will be merged within.
+  -h, --help            show this help message and exit
+  -d <dest>             Destination for parsed logs.Default creates a '<src>.csv' output for each
+                        <src> file.If <dest> is a dir, saves all outputs as 'dest/{src}.csv.'The
+                        directory must exist.If <dest> is a file, all outputs will be merged
+                        within.
+  -s {match,full,search}
+                        The matching strategySee re documentation
+  -l, --lazy            If set skips log lines that can not be matchedOtherwise exit with error in
+                        case a line cannot be matched
   -n <name> [<name> ...]
                         List of regex group names used for the CSV header.
+  -v, --verbose         Verbose output to stdout.
 ```
 #### Install
 

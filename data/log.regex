@@ -1,0 +1,1 @@
+time="([^"]+)"\slevel=(info|warning|error)\smsg="([^"]+)"\sfile="([^"]*)"\sfunc=([^\s]*)\skind=([^\s]*)\s?
