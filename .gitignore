@@ -3,5 +3,8 @@
 
 !.gitignore
 !README.md
+!license.md
+
 !pyproject.toml
+
 !*.py

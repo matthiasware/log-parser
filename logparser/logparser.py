@@ -97,16 +97,18 @@ def _main(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="Logparser",
+        prog="logparser",
         description="Transforms unstructured log-files into structured ones.",
+        add_help=False
     )
-    parser.add_argument("regex", metavar="<regex>", type=str, help="regex")
+    parser.add_argument('-h', action='help', default=argparse.SUPPRESS,
+                        help='Show this help message and exits.')
+    parser.add_argument("Regex", metavar="<regex>", type=str, help="Regex to match lines in log file(s). Can be either a filepath or cli argumet. Regex must match the whole line. The specified groups are extraced.")
     parser.add_argument(
         "src", metavar="<src>", type=Path, nargs="+", help="One or multiple source log file(s)."
     )
     parser.add_argument(
         "-d",
-        "--dest",
         metavar="<dest>",
         type=Path,
         default=None,
@@ -119,7 +121,7 @@ def main():
               ),
     )
     parser.add_argument(
-        "-n", "--names", nargs="+", default=[], metavar="<name>", help="List of regex group names used for the CSV header."
+        "-n", nargs="+", default=[], metavar="<name>", help="List of regex group names used for the CSV header."
     )
     args = parser.parse_args()
 
@@ -127,3 +129,7 @@ def main():
         _main(args)
     except Exception as e:
         print("{} - {}".format(e.__class__.__name__, e))
+
+
+if __name__ == "__main__":
+    main()
