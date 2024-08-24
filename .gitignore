@@ -8,3 +8,5 @@
 !pyproject.toml
 
 !*.py
+
+!data/*.txt
